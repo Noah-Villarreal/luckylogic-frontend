@@ -6,7 +6,7 @@ function App() {
 
   const generatePicks = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/pick");
+      const response = await fetch("https://luckylogic-backend.onrender.com/api/pick");
       if (!response.ok) {
         throw new Error(`Server responded with status ${response.status}`);
       }
