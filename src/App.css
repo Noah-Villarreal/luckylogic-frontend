@@ -5,13 +5,15 @@ body {
   background: #f9f9f9;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .App {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -141,16 +143,19 @@ button {
 .bouncy-castle-row {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 2rem;
   margin: 3rem auto;
   position: relative;
   min-height: 160px;
+  overflow-x: auto;
 }
 
 .bouncy-castle {
   position: relative;
   width: 100px;
   height: 120px;
+  flex-shrink: 0;
 }
 
 .bouncy-castle .ball {
