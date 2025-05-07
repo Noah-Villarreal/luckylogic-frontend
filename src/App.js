@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -54,46 +55,126 @@ import logo from './logo.svg';
 =======
 import React, { useState } from 'react';
 >>>>>>> 1244dd7 (Initial commit - React frontend)
+=======
+import React, { useEffect, useState } from 'react';
+>>>>>>> b966f9e (Added pick animation and updated styling)
 import './App.css';
 
-function App() {
+export default function App() {
   const [picks, setPicks] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [, setFavorites] = useState([]); // Don't trigger eslint warning
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [animatedBalls, setAnimatedBalls] = useState([]);
 
-  const generatePicks = async () => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const generateRandomPicks = async () => {
     try {
-      const response = await fetch("https://luckylogic-backend.onrender.com/api/pick");
-      if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
-      }
-      const data = await response.json();
+      setIsLoading(true);
+      setError(null);
+      setPicks([]);
+      setAnimatedBalls([]);
+      const numbers = new Set();
 
-      const formatted = data.picks.map(
-        ([nums, power]) => `${nums.join(', ')} + PB: ${power}`
-      );
-      setPicks(formatted);
-    } catch (error) {
-      console.error("Error fetching picks:", error);
-      setPicks(["Failed to fetch picks"]);
+      while (numbers.size < 5) {
+        numbers.add(Math.floor(Math.random() * 69) + 1);
+        await sleep(200);
+      }
+
+      await sleep(300);
+      const powerball = Math.floor(Math.random() * 26) + 1;
+      numbers.add(powerball);
+
+      const sorted = [...numbers].sort((a, b) => a - b);
+      setPicks(sorted);
+
+      // Animate each ball sequentially
+      for (let i = 0; i < sorted.length; i++) {
+        await sleep(100);
+        setAnimatedBalls((prev) => [...prev, i]);
+      }
+
+      await savePickToHistory(sorted);
+    } catch {
+      setError('❌ Failed to generate numbers. Try again.');
+    } finally {
+      setTimeout(() => setIsLoading(false), 400);
     }
   };
 
+  const savePickToHistory = async (newPick) => {
+    try {
+      const current = JSON.parse(localStorage.getItem('pickHistory')) || [];
+      const updated = [newPick, ...current].slice(0, 20);
+      localStorage.setItem('pickHistory', JSON.stringify(updated));
+      setHistory(updated);
+    } catch (e) {
+      console.error('❌ Error saving pick:', e);
+    }
+  };
+
+  const saveFavorite = async (pick) => {
+    try {
+      const current = JSON.parse(localStorage.getItem('favorites')) || [];
+      const updated = [pick, ...current].slice(0, 20);
+      localStorage.setItem('favorites', JSON.stringify(updated));
+      setFavorites(updated);
+    } catch (e) {
+      console.error('❌ Error saving favorite:', e);
+    }
+  };
+
+  const loadPickHistory = () => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('pickHistory')) || [];
+      setHistory(stored);
+    } catch (e) {
+      console.error('❌ Error loading history:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadPickHistory();
+  }, []);
+
   return (
-    <div className="App" style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>🎰 LuckyLogic Powerball Picks</h1>
-      <button
-        onClick={generatePicks}
-        style={{ fontSize: "1.2rem", padding: "0.5rem 1rem" }}
-      >
-        Generate Picks
+    <div className="container">
+      <h1 className="title">LuckyLogic</h1>
+      <button className="button" onClick={generateRandomPicks} disabled={isLoading}>
+        {isLoading ? 'Generating...' : 'Generate Pick'}
       </button>
-      <div style={{ marginTop: "2rem" }}>
-        {picks.map((line, idx) => (
-          <div key={idx}>{line}</div>
+
+      {error && <div className="errorText">{error}</div>}
+
+      <div className="picksContainer">
+        {picks.map((num, i) => (
+          <div
+            key={i}
+            className={`pickBall ${i === picks.length - 1 ? 'powerBall' : ''} ${
+              animatedBalls.includes(i) ? 'scale' : ''
+            }`}
+          >
+            {num}
+          </div>
+        ))}
+      </div>
+
+      <div className="historyBox">
+        {history.map((pick, i) => (
+          <div className="historyRow" key={`${pick.join('-')}-${i}`}>
+            <span className="historyItem">{pick.join(', ')}</span>
+            <button onClick={() => saveFavorite(pick)} className="heart">❤️</button>
+          </div>
         ))}
       </div>
     </div>
   );
 }
 
+<<<<<<< HEAD
 export default App;
 >>>>>>> 9f40d55 (Initialize project using Create React App)
+=======
+>>>>>>> b966f9e (Added pick animation and updated styling)
