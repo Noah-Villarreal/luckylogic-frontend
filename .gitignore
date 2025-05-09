@@ -22,6 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 <<<<<<< HEAD
+<<<<<<< HEAD
 .vercel
 =======
 >>>>>>> 9f40d55 (Initialize project using Create React App)
+=======
+.vercel
+>>>>>>> d4248c2 (Update logo and styles)

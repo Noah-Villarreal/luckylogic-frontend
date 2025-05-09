@@ -20,7 +20,11 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+<<<<<<< HEAD
 >>>>>>> 9f40d55 (Initialize project using Create React App)
+=======
+    "react-icons": "^5.5.0",
+>>>>>>> d4248c2 (Update logo and styles)
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
