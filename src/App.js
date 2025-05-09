@@ -1,29 +1,71 @@
-// app.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import {
+  DAILY_PICK_KEY,
+  FAVORITES_KEY,
+  HISTORY_KEY,
+  FULL_HISTORY_KEY,
+  MAX_HISTORY,
+  HISTORY_RETENTION_DAYS
+} from './utils/config';
+import smartLogic from './utils/smartLogic';
+import PickRow from './components/PickRow';
+import BouncingBalls from './components/BouncingBalls';
+import ControlsBar from './components/ControlsBar';
+import PersonalInput from './components/PersonalInput';
+import HistoryList from './components/HistoryList';
+import TagInfoPanel from './components/TagInfoPanel';
+import { generateUniqueNumbers, formatDate } from './utils/helpers';
 
-const DAILY_PICK_KEY = 'lastDailyPickDate';
-const FAVORITES_KEY = 'powerballFavorites';
-const HISTORY_KEY = 'powerballHistory';
-const FULL_HISTORY_KEY = 'powerballFullHistory';
-const MAX_HISTORY = 50;
-const HISTORY_RETENTION_DAYS = 30;
+// ✅ Import your logo
+import logo from './assets/logo.svg';
 
 export default function App() {
   const [latestPick, setLatestPick] = useState(null);
-  const [picks, setPicks] = useState([]); // session only
+  const [picks, setPicks] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [personalPicks, setPersonalPicks] = useState(() => {
+    const stored = localStorage.getItem('personalPicks');
+    return stored ? JSON.parse(stored) : [];
+  });
   const [tab, setTab] = useState('main');
   const [dailyPickAvailable, setDailyPickAvailable] = useState(false);
   const [animationId, setAnimationId] = useState(null);
   const [hasGenerated, setHasGenerated] = useState(false);
   const [hasGeneratedOnce, setHasGeneratedOnce] = useState(false);
+  const [showInput, setShowInput] = useState(false);
+  const [manualNumbers, setManualNumbers] = useState({
+    numbers: ['', '', '', '', ''],
+    powerball: ''
+  });
 
   useEffect(() => {
     loadFavorites();
     migrateHistoryToFull();
     checkDailyPick();
+    repairOldPicks();
   }, []);
+
+  const repairOldPicks = () => {
+    try {
+      const raw = localStorage.getItem(FULL_HISTORY_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      const repaired = parsed.map((pick) => ({
+        ...pick,
+        numbers: Array.isArray(pick.numbers) ? pick.numbers : [],
+        powerball: typeof pick.powerball === 'number' ? pick.powerball : 0,
+        timestamp: pick.timestamp || new Date().toISOString(),
+        tags: Array.isArray(pick.tags)
+          ? pick.tags
+          : typeof pick.tags === 'string'
+            ? [pick.tags]
+            : smartLogic(pick.numbers || [], pick.powerball || 0)
+      }));
+      localStorage.setItem(FULL_HISTORY_KEY, JSON.stringify(repaired));
+    } catch (err) {
+      console.error('❌ Error repairing picks:', err);
+    }
+  };
 
   const loadFavorites = () => {
     try {
@@ -39,17 +81,14 @@ export default function App() {
       const stored = localStorage.getItem(HISTORY_KEY);
       const parsed = stored ? JSON.parse(stored) : [];
       const now = new Date();
-
       const filtered = parsed.filter(pick => {
         const pickDate = new Date(pick.timestamp);
         const diffDays = (now - pickDate) / (1000 * 60 * 60 * 24);
         return diffDays <= HISTORY_RETENTION_DAYS;
       });
-
       const fullStored = localStorage.getItem(FULL_HISTORY_KEY);
       const fullParsed = fullStored ? JSON.parse(fullStored) : [];
-      const merged = [...filtered, ...fullParsed].slice(0, 200); // cap
-
+      const merged = [...filtered, ...fullParsed].slice(0, 200);
       localStorage.setItem(FULL_HISTORY_KEY, JSON.stringify(merged));
       localStorage.removeItem(HISTORY_KEY);
     } catch (e) {
@@ -63,22 +102,15 @@ export default function App() {
     setDailyPickAvailable(!lastPick || lastPick !== today);
   };
 
-  const generateUniqueNumbers = (max, count) => {
-    const numbers = new Set();
-    while (numbers.size < count) {
-      numbers.add(Math.floor(Math.random() * max) + 1);
-    }
-    return Array.from(numbers).sort((a, b) => a - b);
-  };
-
   const generatePick = (isDaily = false) => {
     if (hasGeneratedOnce && latestPick) {
       const updatedPicks = [latestPick, ...picks].slice(0, MAX_HISTORY);
       setPicks(updatedPicks);
     }
-
     const mainNumbers = generateUniqueNumbers(69, 5);
     const powerball = Math.floor(Math.random() * 26) + 1;
+    const tags = smartLogic(mainNumbers, powerball);
+    if (tags.length === 0) tags.push('🔎 Mystery Pattern');
 
     const fullPick = {
       id: `${mainNumbers.join('-')}-${powerball}-${Date.now()}`,
@@ -86,6 +118,7 @@ export default function App() {
       powerball,
       timestamp: new Date().toISOString(),
       type: isDaily ? 'daily' : 'regular',
+      tags
     };
 
     setLatestPick(fullPick);
@@ -98,7 +131,6 @@ export default function App() {
       setDailyPickAvailable(false);
     }
 
-    // Append to FULL_HISTORY_KEY
     try {
       const fullStored = localStorage.getItem(FULL_HISTORY_KEY);
       const fullParsed = fullStored ? JSON.parse(fullStored) : [];
@@ -110,154 +142,121 @@ export default function App() {
   };
 
   const generateDailyPick = () => {
-    if (dailyPickAvailable) {
-      generatePick(true);
-    }
+    if (dailyPickAvailable) generatePick(true);
   };
 
   const toggleFavorite = (pick) => {
-    const exists = favorites.some((fav) => fav.id === pick.id);
+    const exists = favorites.some(fav => fav.id === pick.id);
     const updatedFavorites = exists
-      ? favorites.filter((fav) => fav.id !== pick.id)
+      ? favorites.filter(fav => fav.id !== pick.id)
       : [pick, ...favorites];
-
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
     setFavorites(updatedFavorites);
   };
 
-  const isFavorite = (pick) => favorites.some((fav) => fav.id === pick.id);
+  const isFavorite = (pick) => favorites.some(fav => fav.id === pick.id);
 
-  const formatDate = (iso) => new Date(iso).toLocaleDateString('en-US');
+  const savePersonalPick = () => {
+    const numbers = manualNumbers.numbers.map(n => parseInt(n)).filter(n => !isNaN(n));
+    const powerball = parseInt(manualNumbers.powerball);
+    if (numbers.length !== 5 || isNaN(powerball)) {
+      alert("Enter 5 white balls (1–69) and 1 Powerball (1–26)");
+      return;
+    }
+    const pick = {
+      id: `personal-${Date.now()}`,
+      numbers: numbers.sort((a, b) => a - b),
+      powerball,
+      timestamp: new Date().toISOString(),
+      type: 'personal',
+      tags: ['🌟 Personal Pick – Straight from the Heart'],
+    };
+    const updated = [pick, ...personalPicks];
+    setPersonalPicks(updated);
+    localStorage.setItem('personalPicks', JSON.stringify(updated));
+    setManualNumbers({ numbers: ['', '', '', '', ''], powerball: '' });
+    setShowInput(false);
+  };
 
-  const renderBouncingBalls = () => {
-    if (!hasGenerated || !latestPick) return null;
-    const displayTime = 300;
-    const totalBalls = [...latestPick.numbers, latestPick.powerball];
+  const renderPickRow = (pick) => {
+    const rawTags = pick.tags;
+    const safeTags = Array.isArray(rawTags)
+      ? rawTags
+      : typeof rawTags === 'string'
+        ? [rawTags]
+        : smartLogic(pick.numbers || [], pick.powerball || 0);
 
     return (
-      <div key={animationId} className="bouncy-castle-row">
-        {totalBalls.map((num, index) => (
-          <div key={index} className="bouncy-castle">
-            <div
-              className={`ball ${index < 5 ? 'white-ball' : 'red-ball'} bounce bounce-delay-${index}`}
-            >
-              <span
-                style={{
-                  visibility: 'hidden',
-                  animation: `fadeIn 0.3s ease-in-out forwards`,
-                  animationDelay: `${index * displayTime}ms`,
-                  display: 'inline-block'
-                }}
-              >
-                {num}
-              </span>
-            </div>
-            <div className={`ball-shadow bounce-shadow bounce-delay-${index}`}></div>
-          </div>
-        ))}
-      </div>
+      <PickRow
+        key={pick.id}
+        numbers={pick.numbers || []}
+        powerball={pick.powerball}
+        tags={safeTags}
+        date={pick.timestamp}
+        isFavorite={isFavorite(pick)}
+        onToggleFavorite={() => toggleFavorite(pick)}
+        formatDate={formatDate}
+        type={pick.type}
+      />
     );
   };
 
-  const renderMainHistory = () => {
-    if (!hasGeneratedOnce || picks.length < 1) return null;
-    return (
-      <div className="history-list">
-        {picks.slice(0, 5).map((pick) => (
-          <div key={pick.id} className={`pick-row ${pick.type === 'daily' ? 'daily-pick' : ''}`}>
-            <div className="pick-numbers">
-              {pick.numbers.map((num, index) => (
-                <div key={index} className="ball white-ball history-ball">{num}</div>
-              ))}
-              <div className="ball red-ball history-ball">{pick.powerball}</div>
-            </div>
-            <button className="heart-button" onClick={() => toggleFavorite(pick)}>
-              {isFavorite(pick) ? '❤️' : '🤍'}
-            </button>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const renderFavorites = () => (
-    <div className="history-list">
-      {favorites.map((pick) => (
-        <div key={pick.id} className={`pick-row ${pick.type === 'daily' ? 'daily-pick' : ''}`}>
-          <div className="pick-numbers">
-            {pick.numbers.map((num, index) => (
-              <div key={index} className="ball white-ball history-ball">{num}</div>
-            ))}
-            <div className="ball red-ball history-ball">{pick.powerball}</div>
-          </div>
-          <button className="heart-button" onClick={() => toggleFavorite(pick)}>
-            {isFavorite(pick) ? '❤️' : '🤍'}
-          </button>
-        </div>
-      ))}
-    </div>
+  const renderBouncingBalls = () => (
+    hasGenerated && latestPick ? (
+      <BouncingBalls latestPick={latestPick} animationId={animationId} />
+    ) : null
   );
 
-  const renderFullHistory = () => {
-    const now = new Date();
-    try {
-      const stored = localStorage.getItem(FULL_HISTORY_KEY);
-      const parsed = stored ? JSON.parse(stored) : [];
-      const filtered = parsed.filter((pick) => {
-        const pickDate = new Date(pick.timestamp);
-        const diffDays = (now - pickDate) / (1000 * 60 * 60 * 24);
-        return diffDays <= HISTORY_RETENTION_DAYS;
-      });
-
-      return (
-        <div className="history-list">
-          {filtered.map((pick) => (
-            <div key={pick.id} className="pick-row">
-              <span className="pick-date">{formatDate(pick.timestamp)}</span>
-              <div className="history-balls">
-                {pick.numbers.map((num, index) => (
-                  <div key={index} className="ball white-ball history-ball">{num}</div>
-                ))}
-                <div className="ball red-ball history-ball">{pick.powerball}</div>
-              </div>
-              <button className="heart-button" onClick={() => toggleFavorite(pick)}>
-                {isFavorite(pick) ? '❤️' : '🤍'}
-              </button>
-            </div>
-          ))}
-        </div>
-      );
-    } catch (e) {
-      return <div>Error loading full history</div>;
-    }
-  };
-
   return (
-    <div className="App">
-      <h1>LuckyLogic Powerball 🎯</h1>
+    <>
+      <div className="App">
+        {/* ✅ Add Logo */}
+        <img src={logo} alt="Powerball Logo" className="app-logo" />
 
-      <div className="controls">
-        <button className="generate-button" onClick={() => generatePick(false)}>
-          Generate Powerball Numbers
-        </button>
-        {dailyPickAvailable && (
-          <button className="daily-button" onClick={generateDailyPick}>
-            Get Daily Lucky Pick ✨
-          </button>
+        <h1 className="powerball-title">Powerball</h1>
+        <ControlsBar
+          onGenerate={() => generatePick(false)}
+          onDailyPick={generateDailyPick}
+          dailyPickAvailable={dailyPickAvailable}
+          tab={tab}
+          setTab={setTab}
+        />
+        {renderBouncingBalls()}
+        {tab === 'main' && <HistoryList title="Last Picks" picks={picks.slice(0, 5)} renderPickRow={renderPickRow} />}
+        {tab === 'favorites' && <HistoryList title="Favorites" picks={favorites} renderPickRow={renderPickRow} />}
+        {tab === 'history' && (
+          <HistoryList
+            title="Full History"
+            picks={(() => {
+              const now = new Date();
+              try {
+                const stored = localStorage.getItem(FULL_HISTORY_KEY);
+                const parsed = stored ? JSON.parse(stored) : [];
+                return parsed.filter(pick => {
+                  const pickDate = new Date(pick.timestamp);
+                  const diffDays = (now - pickDate) / (1000 * 60 * 60 * 24);
+                  return diffDays <= HISTORY_RETENTION_DAYS;
+                });
+              } catch (e) {
+                return [];
+              }
+            })()}
+            renderPickRow={renderPickRow}
+          />
         )}
-        <button className="toggle-button" onClick={() => setTab(tab === 'favorites' ? 'main' : 'favorites')}>
-          {tab === 'favorites' ? 'Show Main' : 'Show Favorites'}
-        </button>
-        <button className="toggle-button" onClick={() => setTab(tab === 'history' ? 'main' : 'history')}>
-          {tab === 'history' ? 'Show Main' : 'Show History'}
-        </button>
+        {tab === 'personal' && (
+          <PersonalInput
+            showInput={showInput}
+            setShowInput={setShowInput}
+            manualNumbers={manualNumbers}
+            setManualNumbers={setManualNumbers}
+            savePersonalPick={savePersonalPick}
+            personalPicks={personalPicks}
+            renderPickRow={renderPickRow}
+          />
+        )}
       </div>
-
-      {renderBouncingBalls()}
-
-      {tab === 'main' && renderMainHistory()}
-      {tab === 'favorites' && renderFavorites()}
-      {tab === 'history' && renderFullHistory()}
-    </div>
+      <TagInfoPanel />
+    </>
   );
 }
