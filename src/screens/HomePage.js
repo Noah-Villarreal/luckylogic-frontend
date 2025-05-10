@@ -9,7 +9,7 @@ export default function HomePage() {
   const [history, setHistory] = useState([]);
 
   const generateRandomPicks = () => {
-    let numbers = new Set();
+    const numbers = new Set();
     while (numbers.size < 5) {
       numbers.add(Math.floor(Math.random() * 69) + 1);
     }
