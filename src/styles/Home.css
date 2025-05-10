@@ -92,10 +92,10 @@
   z-index: -1;
 }
 
-/* Logo Styling */
-.home-logo {
-  width: 100px;
+/* ✅ Logo Styling (from Powerball) */
+.app-logo {
+  width: 260px;
   height: auto;
-  margin: 0 auto 20px;
+  margin: 0 auto 1.5rem;
   display: block;
 }
