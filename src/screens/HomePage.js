@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Home.css';
+import logo from '../assets/logo.png'; // ✅ Correct logo import
 
 export default function HomePage() {
   const location = useLocation();
@@ -47,8 +48,7 @@ export default function HomePage() {
   return (
     <div className="container-with-nav">
       <div className="container">
-        {/* Logo (swap /logo.png if you have your own) */}
-        <img src="/logo.png" alt="LuckyLogic Logo" className="home-logo" />
+        <img src={logo} alt="LuckyLogic Logo" className="home-logo" />
         <h1 className="home-title">LuckyLogic</h1>
 
         <div className="picker-section">
