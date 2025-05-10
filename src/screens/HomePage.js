@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Home.css';
-import logo from '../assets/logo.svg'; // Ensure logo.svg is in src/assets/
+import logo from '../assets/logo.svg'; // Same import as Powerball
 
 export default function HomePage() {
   const location = useLocation();
@@ -48,7 +48,7 @@ export default function HomePage() {
   return (
     <div className="container-with-nav">
       <div className="container">
-        <img src={logo} alt="LuckyLogic Logo" className="home-logo" />
+        <img src={logo} alt="LuckyLogic Logo" className="app-logo" />
         <h1 className="home-title">LuckyLogic</h1>
 
         <div className="picker-section">
