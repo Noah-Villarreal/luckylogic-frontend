@@ -47,10 +47,14 @@ export default function HomePage() {
   return (
     <div className="container-with-nav">
       <div className="container">
-        <h1>🎰 LuckyLogic</h1>
+        {/* Logo (swap /logo.png if you have your own) */}
+        <img src="/logo.png" alt="LuckyLogic Logo" className="home-logo" />
+        <h1 className="home-title">LuckyLogic</h1>
 
         <div className="picker-section">
-          <button onClick={generateRandomPicks}>Generate Pick</button>
+          <button onClick={generateRandomPicks} className="generate-button">
+            Generate Pick
+          </button>
           {picks.length > 0 && (
             <p className="picks">Current: {picks.join(', ')}</p>
           )}
