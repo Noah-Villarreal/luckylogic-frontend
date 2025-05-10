@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Home.css';
-import logo from '../assets/logo.svg'; // Correct logo path
+import logo from '../assets/logo.svg'; // Ensure logo.svg is in src/assets/
 
 export default function HomePage() {
   const location = useLocation();
