@@ -1,6 +1,7 @@
 // 🧪 Testing test-preview branch
 import React, { useState, useEffect } from 'react';
-import '../styles/Powerball.css'; // ✅ Corrected path
+import { Link } from 'react-router-dom';
+import '../styles/Powerball.css';
 import {
   DAILY_PICK_KEY,
   FAVORITES_KEY,
@@ -209,6 +210,24 @@ export default function PowerballScreen() {
   return (
     <>
       <div className="App">
+
+        {/* Home button */}
+        <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <button style={{
+              padding: '6px 12px',
+              fontSize: '0.9rem',
+              borderRadius: '6px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer'
+            }}>
+              ← Home
+            </button>
+          </Link>
+        </div>
+
         <img src={logo} alt="Powerball Logo" className="app-logo" />
         <h1 className="powerball-title">Powerball</h1>
         <ControlsBar
