@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/Home.css'; // Optional: CSS styles
+import { Link, useLocation } from 'react-router-dom';
+import '../styles/Home.css';
 
 export default function HomePage() {
+  const location = useLocation();
   const [picks, setPicks] = useState([]);
   const [history, setHistory] = useState([]);
 
@@ -44,27 +45,40 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="container">
-      <h1>🎰 LuckyLogic</h1>
+    <div className="container-with-nav">
+      <div className="container">
+        <h1>🎰 LuckyLogic</h1>
 
-      <div className="nav-buttons">
-        <Link to="/powerball"><button>🎯 Powerball</button></Link>
-        <Link to="/leaderboard"><button>🏆 Leaderboard</button></Link>
+        <div className="picker-section">
+          <button onClick={generateRandomPicks}>Generate Pick</button>
+          {picks.length > 0 && (
+            <p className="picks">Current: {picks.join(', ')}</p>
+          )}
+        </div>
+
+        <div className="historyBox">
+          <h3>History</h3>
+          {history.slice(0, 5).map((pick, index) => (
+            <p key={index}>{pick.join(', ')}</p>
+          ))}
+        </div>
       </div>
 
-      <div className="picker-section">
-        <button onClick={generateRandomPicks}>Generate Pick</button>
-        {picks.length > 0 && (
-          <p className="picks">Current: {picks.join(', ')}</p>
-        )}
-      </div>
-
-      <div className="historyBox">
-        <h3>History</h3>
-        {history.slice(0, 5).map((pick, index) => (
-          <p key={index}>{pick.join(', ')}</p>
-        ))}
-      </div>
+      <nav className="bottom-nav">
+        <Link
+          to="/powerball"
+          className={`tab ${location.pathname === '/powerball' ? 'active' : ''}`}
+        >
+          🎯<span>Powerball</span>
+        </Link>
+        <Link
+          to="/leaderboard"
+          className={`tab ${location.pathname === '/leaderboard' ? 'active' : ''}`}
+        >
+          🏆<span>Leaderboard</span>
+        </Link>
+      </nav>
     </div>
   );
 }
+

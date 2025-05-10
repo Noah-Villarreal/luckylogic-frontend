@@ -30,3 +30,64 @@
   text-align: left;
 }
 
+/* 🔥 Bottom Nav Layout */
+.container-with-nav {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 60px; /* leave space for nav */
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+/* Tabs */
+.bottom-nav .tab {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  transform: scale(1);
+  position: relative;
+}
+
+.bottom-nav .tab span {
+  display: block;
+  font-size: 0.75rem;
+}
+
+/* Active tab */
+.bottom-nav .tab.active {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Click animation */
+.bottom-nav .tab:active {
+  transform: scale(0.92);
+}
+
+/* Optional glow ring effect for active tab */
+.bottom-nav .tab.active::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 123, 255, 0.1);
+  z-index: -1;
+}
