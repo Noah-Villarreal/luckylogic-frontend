@@ -11,20 +11,6 @@ export default function PickRow({
   formatDate,
   type = 'regular'
 }) {
-  const tagColors = {
-    '💥 High Total': '#e57373',
-    '⚡ Low Total': '#64b5f6',
-    '♻️ Repeat Detected': '#81c784',
-    '🧊 All Even': '#4fc3f7',
-    '🔥 All Odd': '#ffb74d',
-    '🎯 Edge Powerball': '#ba68c8',
-    '🍀 Lucky 7': '#aed581',
-    '😈 Bold 13': '#f06292',
-    '📏 Tight Range': '#90caf9',
-    '🎲 Spread Pick': '#ffe082',
-    '🔎 Mystery Pattern': '#b0bec5'
-  };
-
   const ballStyle = {
     display: 'inline-flex',
     justifyContent: 'center',

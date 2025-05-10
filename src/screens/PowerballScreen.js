@@ -1,6 +1,6 @@
 // 🧪 Testing test-preview branch
 import React, { useState, useEffect } from 'react';
-import '../../styles/Powerball.css'; // ✅ Corrected relative path
+import '../styles/Powerball.css'; // ✅ Corrected path
 import {
   DAILY_PICK_KEY,
   FAVORITES_KEY,
