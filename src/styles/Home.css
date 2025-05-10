@@ -6,14 +6,17 @@
   font-family: 'Arial', sans-serif;
 }
 
-.nav-buttons {
-  margin-bottom: 20px;
+.app-logo {
+  width: 260px;
+  height: auto;
+  margin: 0 auto 1.5rem;
+  display: block;
 }
 
-.nav-buttons button {
-  margin: 10px;
-  padding: 12px 20px;
-  font-size: 16px;
+.home-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
 }
 
 .picker-section {
@@ -30,12 +33,11 @@
   text-align: left;
 }
 
-/* 🔥 Bottom Nav Layout */
 .container-with-nav {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 60px; /* leave space for nav */
+  padding-bottom: 60px;
 }
 
 .bottom-nav {
@@ -51,7 +53,6 @@
   z-index: 100;
 }
 
-/* Tabs */
 .bottom-nav .tab {
   text-align: center;
   font-size: 1.2rem;
@@ -67,18 +68,15 @@
   font-size: 0.75rem;
 }
 
-/* Active tab */
 .bottom-nav .tab.active {
   color: #007bff;
   font-weight: bold;
 }
 
-/* Click animation */
 .bottom-nav .tab:active {
   transform: scale(0.92);
 }
 
-/* Optional glow ring effect for active tab */
 .bottom-nav .tab.active::before {
   content: '';
   position: absolute;
@@ -92,10 +90,16 @@
   z-index: -1;
 }
 
-/* ✅ Logo Styling (from Powerball) */
-.app-logo {
-  width: 260px;
-  height: auto;
-  margin: 0 auto 1.5rem;
-  display: block;
+.generate-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.generate-button:hover {
+  background-color: #0056b3;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Home.css';
-import logo from '../assets/logo.svg'; // Same import as Powerball
+import logo from '../assets/logo.svg';
 
 export default function HomePage() {
   const location = useLocation();
