@@ -243,20 +243,3 @@ button {
   margin-bottom: 2px;
   line-height: 1.4;
 }
-
-/* LUCKY PICK HIGHLIGHT - bottom right */
-.daily-pick::before {
-  content: "LUCKY PICK";
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  background-color: #ffa726;
-  color: white;
-  padding: 4px 10px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 16px;
-  letter-spacing: 0.5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-}
