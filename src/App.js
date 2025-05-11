@@ -4,7 +4,6 @@ import HomePage from './screens/HomePage';
 import PowerballScreen from './screens/PowerballScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
 import HistoryTab from './screens/HistoryTab';
-import FantasyLobby from './screens/FantasyLobby';
 
 export default function App() {
   return (
@@ -14,7 +13,6 @@ export default function App() {
         <Route path="/powerball" element={<PowerballScreen />} />
         <Route path="/leaderboard" element={<LeaderboardScreen />} />
         <Route path="/history" element={<HistoryTab />} />
-        <Route path="/fantasy" element={<FantasyLobby />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
