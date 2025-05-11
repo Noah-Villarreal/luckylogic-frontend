@@ -3,12 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import HomePage from './screens/HomePage';
 import PowerballScreen from './screens/PowerballScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
-import HistoryTab from './screens/HistoryTab'; 
+import HistoryTab from './screens/HistoryTab';
 import FantasyLobby from './screens/FantasyLobby';
-
-...
-
-<Route path="/fantasy" element={<FantasyLobby />} />// <-- ADD THIS
 
 export default function App() {
   return (
@@ -17,7 +13,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/powerball" element={<PowerballScreen />} />
         <Route path="/leaderboard" element={<LeaderboardScreen />} />
-        <Route path="/history" element={<HistoryTab />} /> {/* <-- ADD THIS */}
+        <Route path="/history" element={<HistoryTab />} />
+        <Route path="/fantasy" element={<FantasyLobby />} /> {/* Hidden Fantasy Mode */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
