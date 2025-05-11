@@ -1,0 +1,45 @@
+.fantasy-lobby {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.fantasy-lobby h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.fantasy-section {
+  margin-bottom: 1rem;
+}
+
+.fantasy-section label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.fantasy-section select {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.fantasy-start {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
