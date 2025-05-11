@@ -42,4 +42,125 @@
   font-size: 1.1rem;
   border-radius: 10px;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fantasy-start:hover {
+  background-color: #3a78c2;
+}
+
+.fantasy-unlocked {
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  background-color: #eaf4ff;
+  color: #1a73e8;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  border-left: 6px solid #1a73e8;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.rank-up-alert {
+  margin-bottom: 1.25rem;
+  background-color: #fff8e1;
+  border-left: 6px solid #ffb300;
+  color: #a15c00;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.waitlist-progress {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.progress-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4a90e2;
+  transition: width 0.4s ease-in-out;
+}
+
+/* NEW: Referral Section */
+.referral-section {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: #fdfdfd;
+  border: 1px dashed #4a90e2;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.referral-btn {
+  background-color: #4a90e2;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.referral-btn:hover {
+  background-color: #3a78c2;
+}
+
+.referral-code {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.boost-credit {
+  margin-left: 8px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* NEW: Referral Input */
+.referral-entry {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.referral-entry label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.referral-entry input {
+  width: 70%;
+  padding: 0.5rem;
+  margin: 0.5rem auto;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  display: block;
 }
