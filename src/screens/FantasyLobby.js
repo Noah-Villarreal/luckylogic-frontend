@@ -34,7 +34,6 @@ export default function FantasyLobby() {
     setBoostCredits(parseInt(existingCredits) || 0);
     setCodeUsed(!!usedCode);
 
-    // Register the referral code in Firestore
     registerReferralCode(newCode);
 
     const result = unlockFantasyAccess();
@@ -79,7 +78,6 @@ export default function FantasyLobby() {
         localStorage.setItem('usedReferralCode', enteredCode);
         setCodeUsed(true);
 
-        // Boost current user up the waitlist
         const pos = parseInt(fantasyBadge.split('-')[1]);
         const boostedPos = Math.max(1, pos - 25);
         setFantasyBadge(`waitlist-${boostedPos}`);
@@ -167,8 +165,8 @@ export default function FantasyLobby() {
       <div className="fantasy-section">
         <label>Game Mode:</label>
         <select value={gameMode} onChange={(e) => setGameMode(e.target.value)}>
-          <option value="daily">Daily Matchup (NBA Style)</option>
-          <option value="weekly">Weekly Matchup (Fantasy Football Style)</option>
+          <option value="daily">Daily Matchup</option>
+          <option value="weekly">Weekly Matchup</option>
         </select>
       </div>
 
