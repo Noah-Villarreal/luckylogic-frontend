@@ -20,12 +20,21 @@ export default function HomePage() {
         >
           🎯<span>Powerball</span>
         </Link>
+
+        <Link
+          to="/megamillions"
+          className={`tab ${location.pathname === '/megamillions' ? 'active' : ''}`}
+        >
+          💰<span>Mega Millions</span>
+        </Link>
+
         <Link
           to="/history"
           className={`tab ${location.pathname === '/history' ? 'active' : ''}`}
         >
           📜<span>History</span>
         </Link>
+
         <Link
           to="/leaderboard"
           className={`tab ${location.pathname === '/leaderboard' ? 'active' : ''}`}
