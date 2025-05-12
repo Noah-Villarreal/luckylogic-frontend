@@ -16,6 +16,7 @@ import BouncingBalls from '../components/BouncingBalls';
 import ControlsBar from '../components/ControlsBar';
 import PersonalInput from '../components/PersonalInput';
 import HistoryList from '../components/HistoryList';
+import TagInfoPanel from '../components/TagInfoPanel'; // ✅ FIXED: Missing import
 import { generateUniqueNumbers, formatDate } from '../utils/helpers';
 import logo from '../assets/logo.svg';
 
