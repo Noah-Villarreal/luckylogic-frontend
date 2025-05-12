@@ -3,7 +3,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  background: #f3f8ff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
@@ -27,7 +27,7 @@ body {
 .powerball-title {
   font-size: 2.6rem;
   font-weight: 900;
-  background: linear-gradient(to right, #2193b0, #6dd5ed); /* Blue gradient for Mega Millions */
+  background: linear-gradient(to right, #1e3c72, #2a5298);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
@@ -65,20 +65,20 @@ button {
 
 .generate-button,
 .daily-button {
-  background-color: #007bff;
+  background-color: #1e88e5;
   color: white;
 }
 .generate-button:hover,
 .daily-button:hover {
-  background-color: #0056b3;
+  background-color: #1565c0;
 }
 
 .toggle-button {
-  background-color: #ffc107;
+  background-color: #ffd54f;
   color: #212529;
 }
 .toggle-button:hover {
-  background-color: #e0a800;
+  background-color: #fbc02d;
 }
 
 .pick-list,
@@ -102,9 +102,9 @@ button {
 }
 
 .daily-pick {
-  border-left: 6px solid #4caf50;
-  background-color: #f1fff1;
-  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+  border-left: 6px solid #fbc02d;
+  background-color: #fffde7;
+  box-shadow: 0 2px 6px rgba(251, 192, 45, 0.2);
 }
 
 .pick-date {
@@ -201,6 +201,11 @@ button {
   100% { transform: scale(1); opacity: 0.3; }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; visibility: hidden; }
+  to { opacity: 1; visibility: visible; }
+}
+
 .ball {
   border-radius: 50%;
   font-weight: bold;
@@ -216,7 +221,7 @@ button {
 }
 
 .red-ball {
-  background: radial-gradient(circle at 30% 30%, #ffcc00, #ff9900 70%);
+  background: radial-gradient(circle at 30% 30%, #1e88e5, #0d47a1 70%);
   color: white;
 }
 
@@ -237,4 +242,41 @@ button {
 .pick-tags div {
   margin-bottom: 2px;
   line-height: 1.4;
+}
+
+/* === LuckyLogic History & Daily Styles === */
+
+.daily-highlight {
+  background: linear-gradient(to right, #ffeb3b, #fff9c4);
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(255, 235, 59, 0.4);
+}
+
+.history-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem 0;
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.history-balls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.history-game {
+  font-weight: 600;
+  font-size: 0.85rem;
 }

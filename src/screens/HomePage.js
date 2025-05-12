@@ -1,4 +1,5 @@
 // src/screens/HomePage.js
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Home.css';
@@ -10,36 +11,36 @@ export default function HomePage() {
   return (
     <div className="container-with-nav">
       <div className="container">
-        <img src={logo} alt="LuckyLogic Logo" className="app-logo" />
+        <img src={logo} alt="LuckyLogic Logo" className="app-logo logo-pulse" />
       </div>
 
       <nav className="bottom-nav">
         <Link
           to="/powerball"
-          className={`tab ${location.pathname === '/powerball' ? 'active' : ''}`}
+          className={`tab powerball-tab ${location.pathname === '/powerball' ? 'active' : ''}`}
         >
-          🎯<span>Powerball</span>
+          Powerball
         </Link>
 
         <Link
           to="/megamillions"
-          className={`tab ${location.pathname === '/megamillions' ? 'active' : ''}`}
+          className={`tab megamillions-tab ${location.pathname === '/megamillions' ? 'active' : ''}`}
         >
-          💰<span>Mega Millions</span>
+          Mega Millions
         </Link>
 
         <Link
           to="/history"
           className={`tab ${location.pathname === '/history' ? 'active' : ''}`}
         >
-          📜<span>History</span>
+          History
         </Link>
 
         <Link
           to="/leaderboard"
           className={`tab ${location.pathname === '/leaderboard' ? 'active' : ''}`}
         >
-          🏆<span>Leaderboard</span>
+          Leaderboard
         </Link>
       </nav>
     </div>

@@ -243,3 +243,40 @@ button {
   margin-bottom: 2px;
   line-height: 1.4;
 }
+
+/* === LuckyLogic History & Daily Styles === */
+
+.daily-highlight {
+  background: linear-gradient(to right, #ffd700, #fff8dc);
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.history-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem 0;
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.history-balls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.history-game {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
