@@ -1,3 +1,5 @@
+/* styles/DraftRoom.css – Merged Original + Enhanced */
+
 .draft-room {
   padding: 2rem;
   max-width: 800px;
@@ -6,32 +8,33 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .draft-room h2 {
   font-size: 1.8rem;
-  margin-bottom: 1rem;
   color: #333;
+  margin-bottom: 1rem;
 }
 
 .number-pool {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 10px;
+  justify-content: center;
   margin: 2rem 0;
 }
 
 .number-btn {
+  min-width: 44px;
+  min-height: 44px;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 6px;
-  cursor: pointer;
   background-color: #f2f2f2;
+  cursor: pointer;
   transition: background 0.2s ease;
-  min-width: 44px;
-  min-height: 44px;
 }
 
 .number-btn:hover {
@@ -41,6 +44,7 @@
 .number-btn.red {
   background-color: #ffe4e4;
   border: 1px solid #ff5f5f;
+  color: #000;
 }
 
 .number-btn.red:hover {
@@ -81,8 +85,30 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .fantasy-save:hover {
   background-color: #218838;
+}
+
+.fantasy-start {
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  background: #7b61ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.fantasy-start:hover {
+  background-color: #684dd1;
+}
+
+.draft-results {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
 }

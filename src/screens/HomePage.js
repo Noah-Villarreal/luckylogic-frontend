@@ -1,15 +1,46 @@
 // src/screens/HomePage.js
 
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 import logo from '../assets/logo.svg';
 
 export default function HomePage() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX.current;
+    const deltaY = touchEndY - touchStartY.current;
+
+    const fantasyUnlocked = JSON.parse(localStorage.getItem('fantasyUnlocked'));
+
+    // Only trigger if swipe is valid and fantasy is unlocked
+    if (
+      fantasyUnlocked &&
+      deltaX > 80 &&
+      Math.abs(deltaY) < 50 &&
+      touchStartY.current > window.innerHeight - 100
+    ) {
+      navigate('/fantasy');
+    }
+  };
 
   return (
-    <div className="container-with-nav">
+    <div
+      className="container-with-nav"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="container">
         <img src={logo} alt="LuckyLogic Logo" className="app-logo logo-pulse" />
       </div>

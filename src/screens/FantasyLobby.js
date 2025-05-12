@@ -1,28 +1,59 @@
+// src/screens/FantasyLobby.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unlockFantasyAccess } from '../utils/unlockFantasy';
 import { registerReferralCode, redeemReferralCode } from '../utils/referralService';
 import '../styles/FantasyLobby.css';
 
+const generateNumbers = () => {
+  const whiteBalls = new Set();
+  while (whiteBalls.size < 5) {
+    whiteBalls.add(Math.floor(Math.random() * 69) + 1);
+  }
+  const redBall = Math.floor(Math.random() * 26) + 1;
+  return { whiteBalls: Array.from(whiteBalls).sort((a, b) => a - b), redBall };
+};
+
+const calculateFantasyScore = (pick, winning) => {
+  let score = 0;
+  const matchedWhites = pick.whiteBalls.filter(n => winning.whiteBalls.includes(n)).length;
+  const matchedRed = pick.redBall === winning.redBall;
+
+  score += matchedWhites * 10;
+  if (matchedRed) score += 20;
+
+  // Bonuses
+  if (matchedWhites === 3) score += 10;
+  if (matchedWhites === 4) score += 25;
+  if (matchedWhites === 5) score += 100;
+  if (matchedWhites === 5 && matchedRed) score += 500;
+
+  return score;
+};
+
 export default function FantasyLobby() {
-  const [gameMode, setGameMode] = useState('daily');
-  const [gameType, setGameType] = useState('powerball');
-  const [draftType, setDraftType] = useState('manual');
-  const [fantasyBadge, setFantasyBadge] = useState(null);
-  const [waitlisted, setWaitlisted] = useState(false);
-  const [waitlistPosition, setWaitlistPosition] = useState(null);
-  const [rankMovedUp, setRankMovedUp] = useState(false);
   const [referralCode, setReferralCode] = useState('');
-  const [boostCredits, setBoostCredits] = useState(0);
   const [enteredCode, setEnteredCode] = useState('');
   const [codeUsed, setCodeUsed] = useState(false);
+  const [boostCredits, setBoostCredits] = useState(0);
+  const [fantasyBadge, setFantasyBadge] = useState(null);
+  const [rankMovedUp, setRankMovedUp] = useState(false);
+  const [waitlisted, setWaitlisted] = useState(false);
+  const [waitlistPosition, setWaitlistPosition] = useState(null);
+
+  const [mode, setMode] = useState('solo');
+  const [entryCount, setEntryCount] = useState(1);
+  const [entries, setEntries] = useState([]);
+  const [results, setResults] = useState([]);
+  const [winner, setWinner] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const existingCode = localStorage.getItem('fantasyReferralCode');
-    const existingCredits = localStorage.getItem('boostCredits');
     const usedCode = localStorage.getItem('usedReferralCode');
+    const credits = localStorage.getItem('boostCredits');
 
     let newCode = existingCode;
     if (!existingCode) {
@@ -31,18 +62,14 @@ export default function FantasyLobby() {
     }
 
     setReferralCode(newCode);
-    setBoostCredits(parseInt(existingCredits) || 0);
     setCodeUsed(!!usedCode);
-
+    setBoostCredits(parseInt(credits) || 0);
     registerReferralCode(newCode);
 
     const result = unlockFantasyAccess();
-
     if (result.unlocked) {
-      const previous = localStorage.getItem('previousFantasyNumber');
-      if (previous && parseInt(previous) > result.number) {
-        setRankMovedUp(true);
-      }
+      const prev = localStorage.getItem('previousFantasyNumber');
+      if (prev && parseInt(prev) > result.number) setRankMovedUp(true);
       setFantasyBadge(result.number);
       localStorage.setItem('previousFantasyNumber', result.number.toString());
     } else if (result.waitlisted) {
@@ -54,18 +81,6 @@ export default function FantasyLobby() {
     }
   }, []);
 
-  const handleStartDraft = () => {
-    navigate('/draft', {
-      state: { gameType, gameMode, draftType },
-    });
-  };
-
-  const handleCopyReferral = () => {
-    const message = `Help me unlock LuckyLogic faster! Use my code ${referralCode} when you join.`;
-    navigator.clipboard.writeText(message);
-    alert('Referral message copied to clipboard!');
-  };
-
   const handleRedeemCode = async () => {
     if (
       enteredCode &&
@@ -73,58 +88,64 @@ export default function FantasyLobby() {
       !localStorage.getItem('usedReferralCode')
     ) {
       const success = await redeemReferralCode(enteredCode);
-
       if (success) {
         localStorage.setItem('usedReferralCode', enteredCode);
         setCodeUsed(true);
-
         const pos = parseInt(fantasyBadge.split('-')[1]);
-        const boostedPos = Math.max(1, pos - 25);
-        setFantasyBadge(`waitlist-${boostedPos}`);
-        setWaitlistPosition(boostedPos);
-
+        const newPos = Math.max(1, pos - 25);
+        setFantasyBadge(`waitlist-${newPos}`);
+        setWaitlistPosition(newPos);
         alert('Referral accepted! You moved up the waitlist.');
       } else {
         alert('Code not found.');
       }
-    } else {
-      alert('Invalid or already used code.');
     }
+  };
+
+  const handleCopyReferral = () => {
+    const msg = `Help me unlock LuckyLogic faster! Use my code ${referralCode} when you join.`;
+    navigator.clipboard.writeText(msg);
+    alert('Referral copied to clipboard!');
+  };
+
+  const handleGenerateEntries = () => {
+    const newEntries = [];
+    for (let i = 0; i < entryCount; i++) {
+      newEntries.push({
+        name: `Entry ${i + 1}`,
+        pick: generateNumbers()
+      });
+    }
+    setEntries(newEntries);
+  };
+
+  const handleRunMatch = () => {
+    const winning = generateNumbers();
+    const scored = entries.map(e => ({
+      ...e,
+      score: calculateFantasyScore(e.pick, winning)
+    }));
+    const top = scored.reduce((a, b) => (b.score > a.score ? b : a));
+    setResults(scored);
+    setWinner(top.name);
   };
 
   return (
     <div className="fantasy-lobby">
-      <h2>LuckyLogic Fantasy Lobby</h2>
+      <h2>LuckyLogic Fantasy</h2>
 
-      {rankMovedUp && (
-        <div className="rank-up-alert">
-          Your fantasy badge just moved up! Keep checking in to climb higher.
-        </div>
-      )}
-
-      {typeof fantasyBadge === 'number' && (
-        <div className="fantasy-unlocked">
-          You’re user #{fantasyBadge} to unlock LuckyLogic Fantasy Mode!
-        </div>
-      )}
-
+      {rankMovedUp && <div className="rank-up-alert">Your badge moved up!</div>}
+      {typeof fantasyBadge === 'number' && <div className="fantasy-unlocked">You’re user #{fantasyBadge}</div>}
       {typeof fantasyBadge === 'string' && fantasyBadge.startsWith('waitlist') && (
         <div className="fantasy-unlocked">
-          You’ve qualified for Fantasy Mode, but all 1,000 spots are currently filled.<br />
-          You’re currently <strong>#{fantasyBadge.split('-')[1]}</strong> on the waitlist.
+          All spots filled. You’re #{fantasyBadge.split('-')[1]} on the waitlist.
         </div>
       )}
-
       {waitlistPosition && (
         <div className="waitlist-progress">
-          <div className="progress-label">
-            Waitlist Position: #{waitlistPosition} of 1000
-          </div>
+          <div className="progress-label">Waitlist #{waitlistPosition} of 1000</div>
           <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${(1000 - waitlistPosition) / 10}%` }}
-            ></div>
+            <div className="progress-fill" style={{ width: `${(1000 - waitlistPosition) / 10}%` }}></div>
           </div>
         </div>
       )}
@@ -133,65 +154,61 @@ export default function FantasyLobby() {
         <>
           <div className="referral-section">
             <p>Want to skip the line?</p>
-            <button className="referral-btn" onClick={handleCopyReferral}>
-              Boost My Rank (Refer a Friend)
-            </button>
+            <button className="referral-btn" onClick={handleCopyReferral}>Refer a Friend</button>
             <div className="referral-code">
               Your Code: <strong>{referralCode}</strong>
-              {boostCredits > 0 && (
-                <span className="boost-credit"> (+{boostCredits} boost)</span>
-              )}
+              {boostCredits > 0 && <span className="boost-credit"> (+{boostCredits})</span>}
             </div>
           </div>
-
           {!codeUsed && (
             <div className="referral-entry">
-              <label htmlFor="codeInput">Have a referral code?</label>
-              <input
-                id="codeInput"
-                type="text"
-                placeholder="Enter code here"
-                value={enteredCode}
-                onChange={(e) => setEnteredCode(e.target.value.toUpperCase())}
-              />
-              <button className="referral-btn" onClick={handleRedeemCode}>
-                Submit
-              </button>
+              <label>Enter Referral Code</label>
+              <input value={enteredCode} onChange={e => setEnteredCode(e.target.value.toUpperCase())} />
+              <button className="referral-btn" onClick={handleRedeemCode}>Submit</button>
             </div>
           )}
         </>
       )}
 
-      <div className="fantasy-section">
-        <label>Game Mode:</label>
-        <select value={gameMode} onChange={(e) => setGameMode(e.target.value)}>
-          <option value="daily">Daily Matchup</option>
-          <option value="weekly">Weekly Matchup</option>
-        </select>
-      </div>
+      {!waitlisted && (
+        <>
+          <div className="fantasy-section">
+            <label>Game Mode</label>
+            <select value={mode} onChange={e => setMode(e.target.value)}>
+              <option value="solo">Solo Contest (FanDuel style)</option>
+              <option value="multi">Multi-Entry (DraftKings style)</option>
+            </select>
+          </div>
 
-      <div className="fantasy-section">
-        <label>Lottery Game:</label>
-        <select value={gameType} onChange={(e) => setGameType(e.target.value)}>
-          <option value="powerball">Powerball Only</option>
-          <option value="megamillions">Mega Millions Only</option>
-          <option value="both">Both</option>
-        </select>
-      </div>
+          {mode === 'multi' && (
+            <div className="fantasy-section">
+              <label>How many entries?</label>
+              <select value={entryCount} onChange={e => setEntryCount(Number(e.target.value))}>
+                {[1, 2, 3, 5, 10].map(n => <option key={n}>{n}</option>)}
+              </select>
+              <button className="referral-btn" onClick={handleGenerateEntries}>Generate Entries</button>
+            </div>
+          )}
 
-      <div className="fantasy-section">
-        <label>Draft Type:</label>
-        <select value={draftType} onChange={(e) => setDraftType(e.target.value)}>
-          <option value="manual">Manual Pick (Live Draft)</option>
-          <option value="autopick">AutoPick (SmartLogic)</option>
-          <option value="prerank">Pre-Ranked Picks (if you can’t attend)</option>
-        </select>
-      </div>
+          {entries.length > 0 && (
+            <div style={{ marginTop: '1rem' }}>
+              <button className="fantasy-start" onClick={handleRunMatch}>Run Fantasy Match</button>
+            </div>
+          )}
 
-      <button className="fantasy-start" onClick={handleStartDraft}>
-        Start Draft
-      </button>
+          {results.length > 0 && (
+            <>
+              <h3>Results</h3>
+              {results.map((r, i) => (
+                <div key={i} className={r.name === winner ? 'fantasy-unlocked' : 'fantasy-section'}>
+                  <strong>{r.name}</strong>: {r.pick.whiteBalls.join(', ')} + [{r.pick.redBall}] → {r.score} pts
+                </div>
+              ))}
+              <div className="rank-up-alert">Winner: <strong>{winner}</strong></div>
+            </>
+          )}
+        </>
+      )}
     </div>
-    //
   );
 }

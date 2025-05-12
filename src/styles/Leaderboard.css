@@ -1,3 +1,5 @@
+/* styles/Leaderboard.css – Merged Original + Enhanced */
+
 .leaderboard-container {
   padding: 2rem;
   background: #ffffff;
@@ -24,13 +26,43 @@
   padding: 0.75rem;
   text-align: center;
   border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
 }
 
 .leaderboard-table th {
   background-color: #f7f7f7;
   color: #555;
+  font-weight: 600;
 }
 
+/* Stripe background */
 .leaderboard-table tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+/* Top 3 highlight rows */
+.gold-row {
+  background: linear-gradient(to right, #fff8dc, #ffeb99);
+  font-weight: bold;
+}
+
+.silver-row {
+  background: linear-gradient(to right, #f0f0f0, #d8d8d8);
+  font-weight: bold;
+}
+
+.bronze-row {
+  background: linear-gradient(to right, #fce8d5, #e0b07d);
+  font-weight: bold;
+}
+
+/* Username badge style */
+.username-badge {
+  display: inline-block;
+  background: #eaf3ff;
+  color: #1a73e8;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
