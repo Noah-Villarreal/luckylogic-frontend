@@ -1,0 +1,196 @@
+/* styles/ProfileDashboard.css */
+
+.profile-dashboard {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.profile-dashboard.dark-theme {
+  background: #222;
+  color: #eee;
+}
+
+.profile-dashboard.gold-theme {
+  background: linear-gradient(to bottom, #f9f5e5, #fff9d1);
+}
+
+.profile-dashboard.neon-theme {
+  background: #0f0f0f;
+  color: #f0f0f0;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4a90e2;
+  margin-bottom: 1rem;
+}
+
+.profile-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.rank-title {
+  font-weight: bold;
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.edit-name-btn,
+.save-name-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.name-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 200px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.avatar-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.avatar-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
+}
+
+.avatar-option.selected {
+  border-color: #007bff;
+  transform: scale(1.1);
+}
+
+.avatar-upload {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background: #eee;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.avatar-upload input {
+  display: none;
+}
+
+.profile-grid {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stat-box {
+  background: #f3f3f3;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 150px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.theme-buttons button {
+  margin: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.badge-section {
+  margin-top: 2rem;
+}
+
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.badge {
+  background: #ffe082;
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #444;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.badge-reveal {
+  margin-top: 1rem;
+  background: #fff8e1;
+  border-left: 4px solid #ffb300;
+  padding: 0.75rem;
+  font-weight: bold;
+  animation: flashBadge 1s ease alternate infinite;
+  border-radius: 8px;
+}
+
+@keyframes flashBadge {
+  0% { background-color: #fff8e1; }
+  100% { background-color: #ffecb3; }
+}
+
+.view-history-btn {
+  margin-top: 2rem;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.public-link {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.toggle-dark {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}

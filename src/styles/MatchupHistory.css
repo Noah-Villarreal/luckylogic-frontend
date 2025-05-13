@@ -1,0 +1,67 @@
+.matchup-history {
+  padding: 2rem;
+  max-width: 850px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.matchup-history h2 {
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 1.5rem;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.match-entry {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.match-picks {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.ball {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.ball.red {
+  background: #e64c4c;
+  color: white;
+}
+
+.match-result {
+  font-size: 0.85rem;
+  color: #444;
+}
