@@ -17,57 +17,39 @@ export default function DraftLeaderboard() {
 
         let score = 0;
         if (whiteMatch === 1) score += 1;
-        else if (whiteMatch === 2) score += 3;
-        else if (whiteMatch === 3) score += 6;
-        else if (whiteMatch === 4) score += 10;
-        else if (whiteMatch === 5) score += 25;
-        if (bonusMatch) score += 10;
+        if (whiteMatch === 2) score += 5;
+        if (whiteMatch === 3) score += 10;
+        if (whiteMatch === 4) score += 25;
+        if (whiteMatch === 5) score += 50;
+        if (bonusMatch) score += 5;
 
         return {
-          username: entry.username || 'Player',
-          picks: entry.picks,
-          bonus: entry.bonus,
-          score,
-          timestamp: entry.savedAt
+          id: entry.id,
+          name: entry.name || 'Player',
+          score
         };
       });
 
-      const ranked = formatted.sort((a, b) => b.score - a.score);
-      setPlayers(ranked);
-    }, 2000);
+      const sorted = formatted.sort((a, b) => b.score - a.score);
+      setPlayers(sorted.slice(0, 10)); // top 10 players
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="leaderboard-live">
-      <h2>Live Draft Leaderboard</h2>
-      {players.length === 0 ? (
-        <p>No players have drafted yet.</p>
-      ) : (
-        <table className="live-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Username</th>
-              <th>Picks</th>
-              <th>Bonus</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {players.map((player, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{player.username}</td>
-                <td>{player.picks.join(', ')}</td>
-                <td>{player.bonus}</td>
-                <td className="live-score">{player.score}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div className="leaderboard-container">
+      <h2>Draft Leaderboard</h2>
+      <ul className="leaderboard-list">
+        {players.map((player, index) => (
+          <li key={player.id} className="leaderboard-item">
+            <span className="rank">#{index + 1}</span>
+            <span className="name">{player.name}</span>
+            <span className="score">{player.score} pts</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
