@@ -168,6 +168,12 @@
   margin-top: 4px;
 }
 
+/* Diamond-style Jackpot Display for $1B+ */
+.jackpot-amount.diamond-jackpot {
+  color: #7c4dff;
+  text-shadow: 0 0 6px rgba(124, 77, 255, 0.4);
+}
+
 /* Ball Styles */
 .ball {
   border-radius: 50%;
@@ -195,4 +201,15 @@
 .gold-ball {
   background: radial-gradient(circle at 30% 30%, #ffeb3b, #fbc02d 70%);
   color: #333;
+}
+
+/* Fantasy Unlock Hint Box */
+.fantasy-hint {
+  margin-top: 1rem;
+  background: #fff3cd;
+  color: #856404;
+  padding: 0.75rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }

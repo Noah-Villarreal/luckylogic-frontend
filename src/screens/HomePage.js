@@ -24,12 +24,12 @@ export default function HomePage() {
 
     const fantasyUnlocked = JSON.parse(localStorage.getItem('fantasyUnlocked'));
 
-    // Only trigger if swipe is valid and fantasy is unlocked
+    // Only trigger fantasy unlock swipe if it's from the bottom, horizontal, and allowed
     if (
       fantasyUnlocked &&
-      deltaX > 80 &&
-      Math.abs(deltaY) < 50 &&
-      touchStartY.current > window.innerHeight - 100
+      deltaX > 80 &&                   // Swipe right
+      Math.abs(deltaY) < 50 &&        // Not a vertical scroll
+      touchStartY.current > window.innerHeight - 100 // Swipe started near bottom
     ) {
       navigate('/fantasy');
     }
