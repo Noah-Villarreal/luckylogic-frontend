@@ -55,14 +55,12 @@ export default function PickRow({
         position: 'relative'
       }}
     >
-      {/* TOP ROW: Date + Balls + Heart */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap'
       }}>
-        {/* Date */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -73,7 +71,6 @@ export default function PickRow({
           {formatDate ? formatDate(date) : new Date(date).toLocaleDateString()}
         </div>
 
-        {/* Balls */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -105,7 +102,6 @@ export default function PickRow({
           </div>
         </div>
 
-        {/* Heart */}
         <button
           onClick={onToggleFavorite}
           style={{
@@ -122,7 +118,6 @@ export default function PickRow({
         </button>
       </div>
 
-      {/* TAGS ROW */}
       {Array.isArray(tags) && tags.length > 0 && (
         <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap' }}>
           {tags.map((tag, i) => renderTag(tag, i))}

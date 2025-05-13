@@ -9,7 +9,8 @@ import HistoryTab from './screens/HistoryTab';
 import FantasyLobby from './screens/FantasyLobby';
 import DraftRoom from './screens/DraftRoom';
 import FantasyHistory from './screens/FantasyHistory';
-import DraftLeaderboard from './screens/DraftLeaderboard'; // ✅ NEW: Added import
+import DraftLeaderboard from './screens/DraftLeaderboard';
+import MatchupHistory from './screens/MatchupHistory'; // ✅ NEW
 
 export default function App() {
   useEffect(() => {
@@ -40,10 +41,10 @@ export default function App() {
         <Route path="/fantasy" element={<FantasyLobby />} />
         <Route path="/draft" element={<DraftRoom />} />
         <Route path="/fantasy-history" element={<FantasyHistory />} />
-        <Route path="/draft-leaderboard" element={<DraftLeaderboard />} /> {/* ✅ NEW */}
+        <Route path="/draft-leaderboard" element={<DraftLeaderboard />} />
+        <Route path="/matchup-history" element={<MatchupHistory />} /> {/* ✅ NEW */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
-    
   );
 }

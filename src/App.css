@@ -1,0 +1,241 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.App {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* ✅ Logo Styling */
+.app-logo {
+  width: 380px;
+  height: auto;
+  margin: 0 auto 1.35rem;
+  display: block;
+}
+
+/* Gradient Powerball Title */
+.powerball-title {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(to right, #FF416C, #FF4B2B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  animation: popFade 1.2s ease-out;
+}
+
+@keyframes popFade {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  overflow-x: auto;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.generate-button {
+  background-color: #007bff;
+  color: white;
+}
+.generate-button:hover {
+  background-color: #0056b3;
+}
+
+.daily-button {
+  background-color: #28a745;
+  color: white;
+}
+.daily-button:hover {
+  background-color: #1e7e34;
+}
+
+.toggle-button {
+  background-color: #ffc107;
+  color: #212529;
+}
+.toggle-button:hover {
+  background-color: #e0a800;
+}
+
+.pick-list,
+.history-list {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.pick-row {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.daily-pick {
+  border-left: 6px solid #ff9800;
+  background-color: #fff8e1;
+}
+
+.pick-date {
+  font-size: 0.95rem;
+  color: #666;
+  min-width: 100px;
+}
+
+.heart-button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: auto;
+  transition: transform 0.1s ease;
+}
+.heart-button:hover {
+  transform: scale(1.2);
+}
+
+.pick-numbers,
+.history-balls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.history-ball {
+  width: 60px;
+  height: 60px;
+  font-size: 1.25rem;
+}
+
+.ball {
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.white-ball {
+  background: radial-gradient(circle at 30% 30%, #ffffff, #cccccc 70%);
+  color: #333;
+}
+
+.red-ball {
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #c44536 70%);
+  color: white;
+}
+
+.bouncy-castle-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 3rem auto;
+  position: relative;
+  min-height: 160px;
+  overflow-x: auto;
+}
+
+.bouncy-castle {
+  position: relative;
+  width: 100px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.bouncy-castle .ball {
+  width: 100px;
+  height: 100px;
+  font-size: 2rem;
+  animation: bounce 1.4s ease forwards;
+}
+
+.ball-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80px;
+  height: 15px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3), transparent);
+  border-radius: 50%;
+  margin-left: -40px;
+  animation: shadowScale 1.4s ease forwards;
+}
+
+.bounce-delay-0 { animation-delay: 0s; }
+.bounce-delay-1 { animation-delay: 0.2s; }
+.bounce-delay-2 { animation-delay: 0.4s; }
+.bounce-delay-3 { animation-delay: 0.6s; }
+.bounce-delay-4 { animation-delay: 0.8s; }
+.bounce-delay-5 { animation-delay: 1s; }
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-40px); }
+  60%  { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes shadowScale {
+  0% { transform: scale(1); opacity: 0.3; }
+  30% { transform: scale(0.6); opacity: 0.15; }
+  60% { transform: scale(1.2); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.3; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; visibility: hidden; }
+  to { opacity: 1; visibility: visible; }
+}
+
+/* 🔹 SmartLogic Tags Styling */
+.pick-tags {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.pick-tags div {
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
